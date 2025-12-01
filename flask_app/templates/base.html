@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}PySpark Pro Tips{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="{{ url_for('index') }}" class="logo">⚡ PySpark Pro Tips</a>
+            <ul class="nav-menu">
+                <li><a href="{{ url_for('index') }}">Home</a></li>
+                <li><a href="{{ url_for('about') }}">About</a></li>
+                <li><a href="{{ url_for('stats') }}">Stats</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropbtn">Change Design ▼</a>
+                    <div class="dropdown-content">
+                        <a href="{{ url_for('change_design', design_name='modern') }}">🎨 Modern</a>
+                        <a href="{{ url_for('change_design', design_name='minimalist') }}">✨ Minimalist</a>
+                        <a href="{{ url_for('change_design', design_name='dashboard') }}">📊 Dashboard</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="container">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 PySpark Pro Tips | Visit <a href="https://www.datalogichub.com" target="_blank">DataLogicHub.com</a></p>
+        </div>
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

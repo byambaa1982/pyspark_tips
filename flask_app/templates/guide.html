@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}{{ guide.title }} - PySpark Pro Tips{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="guide-header">
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="{{ url_for('index') }}">Home</a> / 
+            <span>Guide {{ guide.number }}</span>
+        </div>
+        <h1>{{ guide.title }}</h1>
+    </div>
+</div>
+
+<div class="container guide-layout">
+    <aside class="guide-sidebar">
+        <h3>📚 All Guides</h3>
+        <nav class="guide-nav">
+            {% for g in guides %}
+            <a href="{{ url_for('view_guide', guide_name=g.filename) }}" 
+               class="guide-nav-item {% if g.filename == guide.filename %}active{% endif %}">
+                <span class="nav-number">{{ g.number }}</span>
+                {{ g.title }}
+            </a>
+            {% endfor %}
+        </nav>
+    </aside>
+
+    <main class="guide-content">
+        <article class="markdown-content">
+            {{ content | safe }}
+        </article>
+
+        <div class="guide-navigation">
+            {% set current_index = namespace(value=-1) %}
+            {% for g in guides %}
+                {% if g.filename == guide.filename %}
+                    {% set current_index.value = loop.index0 %}
+                {% endif %}
+            {% endfor %}
+            {% if current_index.value > 0 %}
+            <a href="{{ url_for('view_guide', guide_name=guides[current_index.value - 1].filename) }}" class="nav-btn prev">
+                ← Previous: {{ guides[current_index.value - 1].title }}
+            </a>
+            {% endif %}
+            {% if current_index.value < guides|length - 1 %}
+            <a href="{{ url_for('view_guide', guide_name=guides[current_index.value + 1].filename) }}" class="nav-btn next">
+                Next: {{ guides[current_index.value + 1].title }} →
+            </a>
+            {% endif %}
+        </div>
+    </main>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script>hljs.highlightAll();</script>
+{% endblock %}

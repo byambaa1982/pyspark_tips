@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Home - PySpark Pro Tips{% endblock %}
+
+{% block content %}
+<div class="hero-modern">
+    <div class="container">
+        <h1 class="hero-title">⚡ Master PySpark with Pro Tips</h1>
+        <p class="hero-subtitle">Battle-tested tips, optimization techniques, and real-world big data examples</p>
+        <div class="hero-badges">
+            <span class="badge">Python 3.8+</span>
+            <span class="badge">PySpark 3.0+</span>
+            <span class="badge">{{ guides|length }} Guides</span>
+        </div>
+    </div>
+</div>
+
+<div class="container content-section">
+    <div class="section-header">
+        <h2>📚 Comprehensive PySpark Guides</h2>
+        <p>From basics to advanced techniques - everything you need to master PySpark</p>
+    </div>
+
+    <div class="guides-grid-modern">
+        {% for guide in guides %}
+        <div class="guide-card-modern">
+            <div class="guide-number">{{ guide.number }}</div>
+            <h3 class="guide-title">{{ guide.title }}</h3>
+            <div class="guide-meta">
+                {% if guide.number|int <= 2 %}
+                <span class="difficulty beginner">🟢 Beginner</span>
+                {% elif guide.number|int >= 8 %}
+                <span class="difficulty advanced">🔴 Advanced</span>
+                {% else %}
+                <span class="difficulty intermediate">🟡 Intermediate</span>
+                {% endif %}
+            </div>
+            <a href="{{ url_for('view_guide', guide_name=guide.filename) }}" class="btn-modern">
+                View Guide →
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="features-section">
+    <div class="container">
+        <h2>✨ What You'll Learn</h2>
+        <div class="features-grid">
+            <div class="feature-box">
+                <div class="feature-icon">📊</div>
+                <h3>Data Processing</h3>
+                <p>Master DataFrame operations, transformations, and actions</p>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon">⚡</div>
+                <h3>Performance</h3>
+                <p>Optimize partitioning, caching, and shuffle operations</p>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon">🔧</div>
+                <h3>Best Practices</h3>
+                <p>Industry-tested patterns and common pitfall solutions</p>
+            </div>
+            <div class="feature-box">
+                <div class="feature-icon">💡</div>
+                <h3>Real Examples</h3>
+                <p>Production-ready code with detailed explanations</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

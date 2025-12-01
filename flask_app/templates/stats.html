@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block title %}Statistics - PySpark Pro Tips{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div class="container">
+        <h1>📊 Guide Statistics</h1>
+        <p>See which guides are most popular</p>
+    </div>
+</div>
+
+<div class="container content-section">
+    {% if stats %}
+    <div class="stats-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Guide Name</th>
+                    <th>Views</th>
+                    <th>Last Viewed</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stat in stats %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('view_guide', guide_name=stat.guide_name) }}">
+                            {{ stat.guide_name.split('_', 1)[1].replace('_', ' ').title() }}
+                        </a>
+                    </td>
+                    <td><strong>{{ stat.view_count }}</strong></td>
+                    <td>{{ stat.last_viewed }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <p>📭 No guide views yet. Start exploring guides to see statistics!</p>
+        <a href="{{ url_for('index') }}" class="btn-primary">Browse Guides</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
